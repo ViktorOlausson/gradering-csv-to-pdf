@@ -45,7 +45,11 @@ namespace Gradering_ht_23
             }
             public string ToString()
             {
-                return $"namn: {namn} ålder: {ålder} ska ta gup: {gup} kommentar: {kommentar} varning: {varning}";
+                return $"namn: {namn} | ålder: {ålder} | ska ta gup: {gup} | kommentar: {kommentar} | varning: {varning}";
+            }
+            public string GupFileName()
+            {
+                return $"{guparr}gup.txt";
             }
         }
         static void Main(string[] args)
@@ -80,24 +84,16 @@ namespace Gradering_ht_23
             //sortera och spara: 
 
 
-            foreach (anmäld L in lines)
-            {
-                if (L.guparr == "11")
-                {
-                    gup11.Add(L);
-                    string filename2 = "11gup.txt";
-                    using (StreamWriter sr = new StreamWriter(filename2))
-                    {
-                        // Write each object in the gup11 list to the text file
-                        foreach (anmäld l in gup11)
-                        {
-                            sr.WriteLine(l.ToString());
-                        }
-                    }
-                } 
-            }
 
-            
+            foreach(anmäld L in lines)
+            {
+                string filename = L.GupFileName();
+                using(StreamWriter gradering = new StreamWriter(filename, true))
+                {
+                    gradering.WriteLine(L.ToString());
+                    gradering.WriteLine();
+                }
+            }
             
 
 
