@@ -1,13 +1,17 @@
 ﻿using System.IO.Pipes;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
+using System.Xml.Linq;
 
 namespace Gradering_ht_23
 {
     internal class Program
     {
+        static List<anmäld> lines = new List<anmäld>();
         class anmäld
         {
             public string namn, gup, ålder, kommentar, varning;
+            public string guparr;
 
             public anmäld(string namn, string gup, string ålder)
             {
@@ -15,26 +19,34 @@ namespace Gradering_ht_23
                 this.gup = gup;
                 this.ålder = ålder;
             }
-
+            public anmäld() { }
+            
             public anmäld(string line)
             {
                 string[] delar = line.Split(",");
+                string[] delargup = delar[2].Split(" ");
                 namn = delar[0];
                 ålder = delar[1];
                 gup = delar[2];
                 kommentar = delar[3];
                 varning = delar[4];
+                guparr = delargup[0];
+
             }
 
-            public void print()
+            public void print(int i)
             {
                 Console.WriteLine($"namn: {namn}");
                 Console.WriteLine($"ålder: {ålder}");
                 Console.WriteLine($"ska ta gup: {gup}");
                 Console.WriteLine($"kommentar: {kommentar}");
                 Console.WriteLine($"varning: {varning}");
+                Console.WriteLine($"guparr: {guparr}");
             }
-
+            public string ToString()
+            {
+                return $"namn: {namn} ålder: {ålder} ska ta gup: {gup} kommentar: {kommentar} varning: {varning}";
+            }
         }
         static void Main(string[] args)
         {
@@ -46,11 +58,50 @@ namespace Gradering_ht_23
             {
                 
                 string line = gradering.ReadLine();
-                
-                
+                while (line != null)
+                {
+                    anmäld L = new anmäld(line);
+                    lines.Add(L);
+                    line = gradering.ReadLine();
+                    
+                }
+
             }
+
+
+            //skriv ut
+            int i = 0;
+            foreach (anmäld L in lines)
+            {
+                L.print(i++);
+            }
+
+            List<anmäld> gup11 = new List<anmäld>();
+            //sortera och spara: 
+
+
+            foreach (anmäld L in lines)
+            {
+                if (L.guparr == "11")
+                {
+                    gup11.Add(L);
+                    string filename2 = "11gup.txt";
+                    using (StreamWriter sr = new StreamWriter(filename2))
+                    {
+                        // Write each object in the gup11 list to the text file
+                        foreach (anmäld l in gup11)
+                        {
+                            sr.WriteLine(l.ToString());
+                        }
+                    }
+                } 
+            }
+
             
             
+
+
+
         }
     }
 }
