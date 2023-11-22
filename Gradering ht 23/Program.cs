@@ -128,7 +128,8 @@ namespace Gradering_ht_23
             foreach(anmäld L in lines)
             {
                 string filename = L.GupFileNameTXT();
-                using(StreamWriter gradering = new StreamWriter(filename, true))
+                string FileName = Path.Combine("txt filer", filename);
+                using(StreamWriter gradering = new StreamWriter(FileName, true))
                 {
                     gradering.WriteLine(L.ToString());
                     gradering.WriteLine();
