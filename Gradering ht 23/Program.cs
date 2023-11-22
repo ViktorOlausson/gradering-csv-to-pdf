@@ -24,12 +24,12 @@ namespace Gradering_ht_23
             public anmäld(string line)
             {
                 string[] delar = line.Split(",");
-                string[] delargup = delar[2].Split(" ");
-                namn = delar[0];
-                ålder = delar[1];
-                gup = delar[2];
-                kommentar = delar[3];
-                varning = delar[4];
+                string[] delargup = delar[3].Split(" ");
+                namn = delar[1];
+                ålder = delar[2];
+                gup = delar[3];
+                kommentar = delar[4];
+                varning = delar[5];
                 guparr = delargup[0];
 
             }
