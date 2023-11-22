@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Xml.Linq;
+using OfficeOpenXml;
 
 namespace Gradering_ht_23
 {
@@ -47,13 +48,18 @@ namespace Gradering_ht_23
             {
                 return $"namn: {namn} | ålder: {ålder} | ska ta gup: {gup} | kommentar: {kommentar} | varning: {varning}";
             }
-            public string GupFileName()
+            public string GupFileNameTXT()
             {
                 return $"{guparr}gup.txt";
+            }
+            public string GupFileNameEXEL()
+            {
+                return $"{guparr}gup.xlsx";
             }
         }
         static void Main(string[] args)
         {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             string filePath = "gradering.csv";
             
 
@@ -83,11 +89,45 @@ namespace Gradering_ht_23
             List<anmäld> gup11 = new List<anmäld>();
             //sortera och spara: 
 
+            //exel fil(funkar ej):
+            /*FileInfo existingFile = new FileInfo("output.xlsx");
+            ExcelPackage package;
+            if(existingFile.Exists)
+            {
+                using (var existingPackage = new ExcelPackage(existingFile))
+                {
+                    package = existingPackage;
+                }
+            }
+            else
+            {
+                package = new ExcelPackage();
+            }
 
+            
 
+            foreach (anmäld L in lines)
+            {
+                string sheetName = L.GupFileNameEXEL();
+                var existingSheet = package.Workbook.Worksheets[sheetName];
+                if(existingSheet != null)
+                {
+                    var workSheet = package.Workbook.Worksheets[sheetName];
+                }
+                existingSheet.Cells[existingSheet.Dimension.End.Row + 1, 1].Value = L.namn;
+                existingSheet.Cells[existingSheet.Dimension.End.Row + 1, 2].Value = L.ålder;
+                existingSheet.Cells[existingSheet.Dimension.End.Row + 1, 3].Value = L.gup;
+                existingSheet.Cells[existingSheet.Dimension.End.Row + 1, 4].Value = L.varning;
+
+            }
+
+            package.Save();
+*/
+
+            //.txt file:
             foreach(anmäld L in lines)
             {
-                string filename = L.GupFileName();
+                string filename = L.GupFileNameTXT();
                 using(StreamWriter gradering = new StreamWriter(filename, true))
                 {
                     gradering.WriteLine(L.ToString());
